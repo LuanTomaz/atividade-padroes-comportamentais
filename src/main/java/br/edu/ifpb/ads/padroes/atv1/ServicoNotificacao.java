@@ -1,17 +1,17 @@
 package br.edu.ifpb.ads.padroes.atv1;
 
-/**
- * Classe responsável por enviar notificações.
- */
 public class ServicoNotificacao {
 
-    public void enviarNotificacao(String canal, String message) {
-        switch (canal.toLowerCase()) {
-            case "email" -> System.out.println("Enviando EMAIL: " + message);
-            case "sms" -> System.out.println("Enviando SMS: " + message);
-            case "push" -> System.out.println("Enviando PUSH NOTIFICATION: " + message);
-            default -> System.out.println("Canal de notificação desconhecido.");
-        }
+    public void enviarNotificacao(CanalNotificacao canal, String mensagem) {
+        canal.enviar(mensagem);
     }
 
+    public CanalNotificacao criarCanal(String canal) {
+        return switch (canal.toLowerCase()) {
+            case "email" -> new CanalEmail();
+            case "sms" -> new CanalSms();
+            case "push" -> new CanalPush();
+            default -> throw new IllegalArgumentException("Canal de notificacao desconhecido: " + canal);
+        };
+    }
 }
